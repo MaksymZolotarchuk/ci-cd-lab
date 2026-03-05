@@ -1,0 +1,3 @@
+metric,value,threshold,passed
+missing_values_rate,0.01,0.05,True
+duplicate_rows_rate,0.0,0.01,True

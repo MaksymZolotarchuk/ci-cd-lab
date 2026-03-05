@@ -1,0 +1,3 @@
+[data_load] OK
+timestamp_utc: 2026-03-05T12:30:16.576225+00:00
+rows_loaded: 100

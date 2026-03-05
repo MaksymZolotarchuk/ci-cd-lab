@@ -1,0 +1,5 @@
+[data_research] OK
+timestamp_utc: 2026-03-05T12:30:16.735061+00:00
+n: 8
+mean: 10.625
+stdev: 1.576
