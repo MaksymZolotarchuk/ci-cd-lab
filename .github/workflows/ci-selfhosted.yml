@@ -1,0 +1,52 @@
+name: CI (self-hosted)
+
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: "Which module to run on self-hosted"
+        required: true
+        default: "visualization"
+        type: choice
+        options:
+          - data_load
+          - data_quality_analysis
+          - data_research
+          - visualization
+
+permissions:
+  contents: read
+
+jobs:
+  run-local-module:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check system
+        run: |
+          uname -a
+          which python3 || true
+          python3 --version
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then python3 -m pip install -r requirements.txt; fi
+          if [ -f pyproject.toml ]; then python3 -m pip install -e .; fi
+
+      - name: Run selected module
+        run: |
+          MOD="${{ github.event.inputs.module }}"
+          mkdir -p "artifacts/$MOD"
+          echo "Running $MOD on self-hosted runner"
+          python3 -m "$MOD" > "artifacts/$MOD/run.log" 2>&1 || (cat "artifacts/$MOD/run.log" && exit 1)
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selfhosted-${{ github.event.inputs.module }}
+          path: artifacts/${{ github.event.inputs.module }}
