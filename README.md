@@ -1,4 +1,4 @@
-# ci-cd-labtest ci
+# REPORT
 Порівняння GitHub-hosted та Self-hosted runner
 Швидкість
 Для порівняння швидкості було виконано кілька запусків CI pipeline на різних типах runner.
